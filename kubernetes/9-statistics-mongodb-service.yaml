@@ -38,14 +38,23 @@ spec:
     spec:
       containers:
       - env:
-        - name: MONGODB_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: piggymetrics
-              key: statistics_mongodb_password
+          - name: MONGODB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: piggymetrics
+                key: auth_mongodb_password
+          - name: MONGODB_USER
+            value: user
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: piggymetrics
+                key: statistics_mongodb_password
+          - name: MONGODB_DATABASE
+            value: piggymetrics
         ports:
           - containerPort: 27017
-        image: afermon/piggymetrics-mongodb
+        image: centos/mongodb-32-centos7
         name: statistics-mongodb
         resources: {}
       restartPolicy: Always
